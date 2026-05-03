@@ -5,24 +5,23 @@ const client = new Anthropic({
 });
 
 async function run() {
-  const msg = await client.messages.create({
+  const stream = await client.messages.stream({
     model: "claude-sonnet-4-6",
-    max_tokens: 10000000,
+    max_tokens: 4096,
     messages: [
       {
         role: "user",
         content: `
-You are an elite senior full-stack engineer with exceptional precision, architectural discipline, and debugging ability.
-
-Your implementation quality must be production-grade.
+You are an elite senior full-stack engineer...
+You are an elite senior full-stack engineer with exceptional precision, architectural discipline, and debugging ability. Your implementation quality must be production-grade.
 
 Carefully analyze my existing e-commerce codebase and systematically fix all issues below.
 
 Do not leave placeholders.
 Do not skip validation.
 Do not partially implement anything.
-Apply fixes directly and verify each one.
 
+Apply fixes directly and verify each one.
 After every fix, test the affected functionality.
 
 ---
@@ -30,10 +29,7 @@ After every fix, test the affected functionality.
 # BANNER MANAGEMENT FIXES
 
 ## Restrict page assignment
-
-Currently banners can be assigned to "other page".
-
-This must NOT exist.
+Currently banners can be assigned to "other page". This must NOT exist.
 
 Banner assignment must only allow pages that already exist in the admin backoffice.
 
@@ -44,35 +40,30 @@ Allowed pages must come dynamically from the existing BO page registry/database.
 ---
 
 ## Banner order validation
-
 Banner order must NEVER allow value 0.
 
 Rules:
-
-* minimum value: 1
-* only positive integers
-* backend validation required
-* frontend validation required
+- minimum value: 1
+- only positive integers
+- backend validation required
+- frontend validation required
 
 Display validation error if invalid.
 
 ---
 
 ## Banner image validation
-
 Images must only accept:
-
-* .png
-* .jpg
-* .jpeg
+- .png
+- .jpg
+- .jpeg
 
 Images must be uploaded as LOCAL FILES only.
 
 Reject:
-
-* URLs
-* external links
-* unsupported formats
+- URLs
+- external links
+- unsupported formats
 
 Add backend MIME validation and frontend file validation.
 
@@ -85,24 +76,16 @@ Currently too many texts are editable.
 Restrict editable content to ONLY:
 
 ## 1. Banner titles and subtitles
-
----
-
 ## 2. Page titles and subtitles
-
----
-
 ## 3. Footer content
 
 Only these text areas should be editable.
-
 Everything else must be locked/read-only.
 
 Update both:
-
-* admin UI
-* backend permissions
-* CMS API validation
+- admin UI
+- backend permissions
+- CMS API validation
 
 ---
 
@@ -110,7 +93,7 @@ Update both:
 
 Featured products on homepage must NOT have pagination.
 
-Remove pagination completely from featured products section.
+Remove pagination completely.
 
 Display all configured featured products.
 
@@ -119,42 +102,34 @@ Display all configured featured products.
 # CAMPAIGN PRODUCT MANAGEMENT BUG
 
 Current issue:
-
-Managing products by campaign does not update frontend.
+Campaign product changes do not update frontend.
 
 Fix synchronization between:
+- admin changes
+- database persistence
+- frontend rendering
+- cache/state invalidation
 
-* admin changes
-* database persistence
-* frontend rendering
-* cache/state invalidation
-
-Ensure all campaign product changes are immediately reflected in FO.
+Ensure immediate frontend update.
 
 Investigate:
-
-* API mutation issues
-* stale cache
-* state hydration
-* incorrect query keys
-* missing DB writes
+- API mutation issues
+- stale cache
+- state hydration
+- incorrect query keys
+- missing DB writes
 
 ---
 
 # COMMENT MODERATION SYNC BUG
 
-Current issue:
+Changes in BO comments are not visible in FO.
 
-Changes made to comments in BO are not visible in FO.
-
-Fix synchronization.
-
-Admin actions that must instantly reflect on frontend:
-
-* edit comment
-* delete comment
-* moderate comment
-* reply to comment
+Fix synchronization for:
+- edit comment
+- delete comment
+- moderate comment
+- reply to comment
 
 Ensure proper revalidation.
 
@@ -164,81 +139,41 @@ Ensure proper revalidation.
 
 Systematically test ALL BO functionality.
 
-Verify every module.
-
----
-
 ## Product management
-
-Test:
-
-* create
-* edit
-* delete
-* stock update
-* image upload
-
-Fix all failures.
-
----
+- create
+- edit
+- delete
+- stock update
+- image upload
 
 ## Banner management
-
-Test:
-
-* create
-* edit
-* delete
-* page assignment
-* image upload
-* ordering
-
-Fix all failures.
-
----
+- create
+- edit
+- delete
+- page assignment
+- image upload
+- ordering
 
 ## Campaign management
-
-Test:
-
-* add products
-* remove products
-* save
-* frontend sync
-
-Fix all failures.
-
----
+- add products
+- remove products
+- save
+- frontend sync
 
 ## Comment moderation
-
-Test:
-
-* reply
-* edit
-* delete
-* hide/show
-
-Fix all failures.
-
----
+- reply
+- edit
+- delete
+- hide/show
 
 ## CMS text editor
-
-Test:
-
-* editable restrictions
-* save
-* persistence
-* frontend reflection
-
-Fix all failures.
-
----
+- editable restrictions
+- save
+- persistence
+- frontend reflection
 
 ## Order management
-
-Test all order flows.
+- test all order flows
 
 Fix all failures.
 
@@ -246,8 +181,7 @@ Fix all failures.
 
 # DEBUGGING PROCESS
 
-For every detected issue:
-
+For every issue:
 1. Identify root cause
 2. Fix implementation
 3. Retest
@@ -263,47 +197,41 @@ Repeat until stable.
 Provide:
 
 ## Fixed files
-
 ## Root causes found
-
 ## Tests executed
-
 ## Remaining risks (if any)
 
-Do not stop until all listed issues are fully resolved and verified.You are an elite senior full-stack engineer, backend architect, and QA automation specialist. Your work must be production-grade, fully tested, secure, and robust.
-
-You are responsible for auditing, fixing, and completing the entire system. Do not leave partial implementations, placeholders, or TODOs. Everything must be fully functional.
+Do not stop until all issues are fully resolved.
 
 ---
 
 # CONTACT PAGE (IMPLEMENTATION REQUIRED)
 
-Build a complete frontend contact page with a functional form.
+Build a complete contact page.
 
-## Fields:
+Fields:
 - name
 - email
 - subject
 - message
 
-## Requirements:
-- Validate all fields on frontend with inline error messages
-- Validate all fields on backend (strict validation + sanitization)
-- Store all submissions in the database
-- Deliver messages to admin backoffice (BO)
-- Admin must be able to:
-  - view messages
-  - reply to messages
-  - archive or delete messages
+Requirements:
+- frontend validation with inline errors
+- backend validation + sanitization
+- store in database
+- send to admin BO
+- admin can:
+  - view
+  - reply
+  - archive/delete
 
 ---
 
-# DATABASE REQUIREMENTS (FULL NORMALIZATION)
+# DATABASE REQUIREMENTS
 
-Design and implement a fully normalized schema.
+Design fully normalized schema.
 
-Create or update tables:
-
+Tables:
 - reviews
 - review_replies
 - cms_texts
@@ -315,163 +243,147 @@ Create or update tables:
 - admin_replies
 - payment_logs
 
-## Database rules:
-- proper normalization (no duplication of data)
-- foreign keys correctly defined
-- cascade rules properly implemented
-- indexes on frequently queried fields
-- timestamps (created_at, updated_at) on all tables
-- enforce referential integrity
+Rules:
+- normalization (no duplication)
+- foreign keys
+- cascade rules
+- indexes
+- timestamps (created_at, updated_at)
+- referential integrity
 
 ---
 
-# VALIDATION SYSTEM (MANDATORY)
+# VALIDATION SYSTEM
 
-## Frontend:
-- field validation for all inputs
-- inline error messages
-- prevent invalid submissions
+Frontend:
+- inline validation
+- block invalid submissions
 
-## Backend:
-- schema validation (strict)
-- input sanitization
-- rate limiting (anti-spam protection)
-- authentication checks
+Backend:
+- strict schema validation
+- sanitization
+- rate limiting
+- auth checks
 - authorization checks
 
 ---
 
 # SECURITY REQUIREMENTS
 
-Implement full production-level security:
-
 - CSRF protection
 - XSS sanitization
 - SQL injection protection
-- role-based access control (RBAC)
-- secure session handling
+- RBAC
+- secure sessions
 - admin route protection
 
-Ensure no endpoint is publicly exploitable.
+No endpoint must be publicly exploitable.
 
 ---
 
-# ADMIN BACKOFFICE REQUIREMENTS
+# ADMIN BACKOFFICE
 
-Ensure all admin operations are secure and functional:
-
-- dashboard access
-- CMS editing
-- product management
-- order management
-- comment moderation
-- contact message handling
-
-All admin actions must be properly authorized.
-
----
-
-# FRONTEND/BACKEND SYNCHRONIZATION
-
-Fix any mismatch between:
-
-- backend data
-- frontend state
-- database updates
-- cached content
-
-Ensure real-time consistency across the system.
-
----
-
-# MULTI-LANGUAGE MENU (NEW REQUIREMENT)
-
-Implement a language selector menu in the frontend.
-
-## Requirements:
-- Must support at least:
-  - Portuguese
-  - English
-- All static and CMS-driven text must be translatable
-- Texts must come from database (CMS structure must support multilingual fields)
-- Language selection must persist (cookie or localStorage)
-- All pages must dynamically update based on selected language
-
----
-
-# TESTING (MANDATORY FULL COVERAGE)
-
-After implementation, automatically test ALL system layers:
-
-## Admin Panel:
+Must support:
 - dashboard
 - CMS editing
 - product management
-- banner management
 - order management
 - comment moderation
-- contact message handling
+- contact messages
 
-## Frontend (Customer Side):
-- authentication
+All actions must be authorized.
+
+---
+
+# FRONTEND/BACKEND SYNC
+
+Fix mismatches between:
+- backend data
+- frontend state
+- DB updates
+- cache
+
+Ensure real-time consistency.
+
+---
+
+# MULTI-LANGUAGE SYSTEM
+
+Add language selector.
+
+Support:
+- Portuguese
+- English
+
+Requirements:
+- CMS-driven translations from DB
+- persistent language selection (cookie/localStorage)
+- dynamic UI updates
+
+---
+
+# TESTING (FULL COVERAGE)
+
+Admin:
+- dashboard
+- CMS
+- products
+- banners
+- orders
+- comments
+- contacts
+
+Frontend:
+- auth
 - product browsing
-- reviews & ratings
-- checkout flow
-- profile management
-- language switching (NEW)
+- reviews
+- checkout
+- profile
+- language switching
 
-## Payments:
-- Stripe integration
-- PayPal integration
-- success/failure handling
-- webhook validation
+Payments:
+- Stripe
+- PayPal
+- webhooks
 
-## Messaging:
-- contact form submission
-- admin replies
-- database persistence
-
-## System Logic:
+System:
 - pagination
-- delivery threshold rules (50€ minimum for home delivery)
-- role-based permissions
-- CMS text rendering
+- delivery rules (50€ minimum)
+- RBAC
+- CMS rendering
 
 ---
 
-# AUTO-FIX LOOP (CRITICAL)
+# AUTO FIX LOOP
 
-If any test fails:
-
-1. Identify root cause
-2. Fix implementation
-3. Re-run tests
-4. Validate frontend + backend sync
-5. Repeat until stable
-
-No feature is considered complete until fully tested.
+If test fails:
+1. root cause
+2. fix
+3. retest
+4. verify sync
+5. repeat
 
 ---
 
-# FINAL OUTPUT REQUIRED
+# FINAL REPORT
 
-Provide a structured report:
+1. architecture summary
+2. files changed
+3. migrations
+4. tests
+5. bugs fixed
+6. risks
 
-1. System architecture summary
-2. All files changed
-3. Database migrations
-4. Tests executed
-5. Bugs fixed
-6. Remaining risks (if any)
-
-Do not stop until the entire platform is fully functional, consistent, secure, and production-ready.
-
-`
+        `
       }
     ]
   });
 
-  console.log(msg.content);
+  for await (const event of stream) {
+    if (event.type === "content_block_delta") {
+      process.stdout.write(event.delta.text || "");
+    }
+  }
 }
 
 run();
