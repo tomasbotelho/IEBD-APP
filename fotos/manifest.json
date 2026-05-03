@@ -1,0 +1,272 @@
+[
+  {
+    "id": 1,
+    "name": "Nike Air Zoom Pegasus 40",
+    "sport": "corrida",
+    "localPath": "fotos/corrida/nike-air-zoom-pegasus-40.jpg",
+    "imageUrl": "https://www.misterrunning.com/images/2023-media-03/nike-air-zoom-pegasus-40-scarpe-da-running-uomo-midnight-navy-dv3853-400_A.jpg",
+    "bytes": 581025,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 2,
+    "name": "Adidas Own the Run Tee",
+    "sport": "corrida",
+    "localPath": "fotos/corrida/adidas-own-the-run-tee.jpg",
+    "imageUrl": "https://www.sportisimopro.cz/pub/products/images/1489/1489659/full/adidas-own-the-run-tee_0.jpg",
+    "bytes": 26130,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 3,
+    "name": "Garmin Forerunner 55",
+    "sport": "corrida",
+    "localPath": "fotos/corrida/garmin-forerunner-55.jpg",
+    "imageUrl": "https://photo.i-run.fr/garmin-forerunner-55-electronique-576205-1-gs.jpg",
+    "bytes": 114600,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 4,
+    "name": "Domyos Hex Dumbbell 10 kg",
+    "sport": "fitness",
+    "localPath": "fotos/fitness/domyos-hex-dumbbell-10kg.jpg",
+    "imageUrl": "https://contents.mediadecathlon.com/p1183113/2000x2000/sq/hex_dumbbell_15_kg_domyos_by_decathlon_8399333_1183113.jpg?k=4270f6b3f3e599923cfdb5ae77802b8f",
+    "bytes": 350623,
+    "contentType": "image/jpeg;charset=UTF-8"
+  },
+  {
+    "id": 5,
+    "name": "Adidas Training Mat 10 mm",
+    "sport": "fitness",
+    "localPath": "fotos/fitness/adidas-training-mat-10mm.jpg",
+    "imageUrl": "https://www.escaladesports.com/cdn/shop/files/batch-1-adidastrainingmat-10mm__admt-12235-p_14_1024x.jpg?v=1745509727",
+    "bytes": 31680,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 6,
+    "name": "Nike Resistance Band Medium",
+    "sport": "fitness",
+    "localPath": "fotos/fitness/nike-resistance-band-medium.jpg",
+    "imageUrl": "https://i1.t4s.cz/products/9339-69-2612/nike-pro-resistance-band-medium-bis-18kg-590969-9339-69-2614-960.jpg",
+    "bytes": 16155,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 7,
+    "name": "Quechua NH Escape 500 23L",
+    "sport": "outdoor",
+    "localPath": "fotos/outdoor/quechua-nh-escape-500-23l.jpg",
+    "imageUrl": "https://assets-global.website-files.com/642bb181c1ed229b9182ab32/6566a31247e2ab554dc37aa0_thumb_clean.jpg",
+    "bytes": 417813,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 8,
+    "name": "Columbia Ascender Softshell",
+    "sport": "outdoor",
+    "localPath": "fotos/outdoor/columbia-ascender-softshell.webp",
+    "imageUrl": "https://www.supersports.co.th/cdn/shop/files/CO399AP367EDTH-0.jpg?v=1734383886",
+    "bytes": 55392,
+    "contentType": "image/webp"
+  },
+  {
+    "id": 9,
+    "name": "Petzl Actik Core",
+    "sport": "outdoor",
+    "localPath": "fotos/outdoor/petzl-actik-core.jpg",
+    "imageUrl": "https://www.petzl.com/sfc/servlet.shepherd/version/download/06868000007mRWYAA2",
+    "bytes": 91318,
+    "contentType": "image/jpeg; charset=UTF-8"
+  },
+  {
+    "id": 10,
+    "name": "Adidas UCL League Ball",
+    "sport": "futebol",
+    "localPath": "fotos/futebol/adidas-ucl-league-ball.jpg",
+    "imageUrl": "https://i.sportisimo.com/products/images/1990/1990106/700x700/adidas-ucl-lge_0.jpg",
+    "bytes": 71436,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 11,
+    "name": "Nike Mercurial Superfly 9 Club",
+    "sport": "futebol",
+    "localPath": "fotos/futebol/nike-mercurial-superfly-9-club.jpg",
+    "imageUrl": "https://thumblr.uniid.it/product/266725/8fbf46599fe9.jpg",
+    "bytes": 16583,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 12,
+    "name": "Kipsta Essential 24 Cones",
+    "sport": "futebol",
+    "localPath": "fotos/futebol/kipsta-essential-24-cones.png",
+    "imageUrl": "https://media.takealot.com/covers_images/63ccf399273f4b6889fb0438fc763813/s-xlpreview.file",
+    "bytes": 12151,
+    "contentType": "image/png"
+  },
+  {
+    "id": 13,
+    "name": "Giro Register MIPS",
+    "sport": "ciclismo",
+    "localPath": "fotos/ciclismo/giro-register-mips.jpg",
+    "imageUrl": "https://cdn.shoplightspeed.com/shops/633788/files/40103210/1652x1652x2/giro-giro-register-mips-helmet.jpg",
+    "bytes": 81467,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 14,
+    "name": "Lezyne Hecto Drive 500XL Set",
+    "sport": "ciclismo",
+    "localPath": "fotos/ciclismo/lezyne-hecto-drive-500xl-set.jpg",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-xw5rh7060c/products/53648/images/249726/6029146_BK000__86908.1698784485.1280.1280.jpg?c=1",
+    "bytes": 75952,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 15,
+    "name": "Castelli Arenberg Gel 2 Gloves",
+    "sport": "ciclismo",
+    "localPath": "fotos/ciclismo/castelli-arenberg-gel-2-gloves.jpg",
+    "imageUrl": "https://www.sportsdirect.com/images/imgzoom/71/71933103_xxl.jpg",
+    "bytes": 61036,
+    "contentType": "image/avif"
+  },
+  {
+    "id": 16,
+    "name": "Merrell Moab 3 Mid GTX",
+    "sport": "caminhada",
+    "localPath": "fotos/caminhada/merrell-moab-3-mid-gtx.webp",
+    "imageUrl": "https://media.atmosferasport.es/244682-thickbox_default/botas-de-montanhismo-merrell-moab-3-mid-gtx-men-s-preto.jpg",
+    "bytes": 58062,
+    "contentType": "image/webp"
+  },
+  {
+    "id": 17,
+    "name": "Forclaz MT500 Anti-Shock",
+    "sport": "caminhada",
+    "localPath": "fotos/caminhada/forclaz-mt500-anti-shock.jpg",
+    "imageUrl": "https://www.test4outside.com/wp-content/uploads/2018/07/batons-quechua-Forclaz-500-Antishock-test4outside16-1000x750.jpg",
+    "bytes": 89359,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 18,
+    "name": "CamelBak Arete 18",
+    "sport": "caminhada",
+    "localPath": "fotos/caminhada/camelbak-arete-18.webp",
+    "imageUrl": "https://http2.mlstatic.com/D_NQ_NP_685581-MLU71219153668_082023-O.webp",
+    "bytes": 12098,
+    "contentType": "image/webp"
+  },
+  {
+    "id": 19,
+    "name": "Select Ultimate EHF",
+    "sport": "andebol",
+    "localPath": "fotos/andebol/select-ultimate-ehf.jpg",
+    "imageUrl": "https://i.sportisimo.com/products/images/1336/1336765/full/select-hb-ultimate-replica-ehf-men-whi_0.jpg",
+    "bytes": 211007,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 20,
+    "name": "Hummel Knee Pad Pro",
+    "sport": "andebol",
+    "localPath": "fotos/andebol/hummel-knee-pad-pro.jpg",
+    "imageUrl": "https://hosoccershop.com/1224-large_default/rodillera-indoor-pro.jpg",
+    "bytes": 158516,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 21,
+    "name": "Quickplay Handball Goal 3x2",
+    "sport": "andebol",
+    "localPath": "fotos/andebol/quickplay-handball-goal-3x2.jpg",
+    "imageUrl": "https://www.interplastic.pl/wp-content/uploads/2020/04/4.jpg",
+    "bytes": 115569,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 22,
+    "name": "Wilson NBA DRV Pro",
+    "sport": "basquetebol",
+    "localPath": "fotos/basquetebol/wilson-nba-drv-pro.webp",
+    "imageUrl": "https://www.wilson.com/en-us/media/catalog/product/article_images/WZ3016002XB_/WZ3016002XB__19c8223f2577269adb1f313ef20f08a4.png",
+    "bytes": 84532,
+    "contentType": "image/webp"
+  },
+  {
+    "id": 23,
+    "name": "Nike Precision 6",
+    "sport": "basquetebol",
+    "localPath": "fotos/basquetebol/nike-precision-6.jpg",
+    "imageUrl": "https://assets.designerbrands.com/match/Site_Name/283101150_160_ss_01/?quality=70",
+    "bytes": 31077,
+    "contentType": "image/avif"
+  },
+  {
+    "id": 24,
+    "name": "Nike Pro Elite Sleeves",
+    "sport": "basquetebol",
+    "localPath": "fotos/basquetebol/nike-pro-elite-sleeves.webp",
+    "imageUrl": "https://cdn.clothbase.com/uploads/453c01c0-2211-46a3-814a-76da495bec6d/black-pro-elite-sleeves.jpg",
+    "bytes": 165574,
+    "contentType": "image/webp"
+  },
+  {
+    "id": 25,
+    "name": "Mikasa V200W Replica",
+    "sport": "voleibol",
+    "localPath": "fotos/voleibol/mikasa-v200w-replica.png",
+    "imageUrl": "https://sovolei.com.br/wp-content/uploads/2021/12/Mikasa-v200w-3.png",
+    "bytes": 127601,
+    "contentType": "image/png"
+  },
+  {
+    "id": 26,
+    "name": "Mizuno VS-1 Knee Pads",
+    "sport": "voleibol",
+    "localPath": "fotos/voleibol/mizuno-vs-1-knee-pads.jpg",
+    "imageUrl": "https://i.ebayimg.com/00/s/MTYwMFgxMjAw/z/RJkAAOSwGYVlYoXZ/$_12.JPG?set_id=880000500F",
+    "bytes": 46050,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 27,
+    "name": "Molten Double Action Pump",
+    "sport": "voleibol",
+    "localPath": "fotos/voleibol/molten-double-action-pump.jpg",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-qhxysj/images/stencil/1280x1280/products/163/782/s-l1600__37347.1639795754.jpg?c=2",
+    "bytes": 15170,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 28,
+    "name": "Speedo Biofuse 2.0 Goggles",
+    "sport": "natacao",
+    "localPath": "fotos/natacao/speedo-biofuse-2-0-goggles.png",
+    "imageUrl": "https://static.thcdn.com/productimg/960/960/14009572-2055162359030674.png",
+    "bytes": 239994,
+    "contentType": "image/png"
+  },
+  {
+    "id": 29,
+    "name": "Arena Classic Silicone Cap",
+    "sport": "natacao",
+    "localPath": "fotos/natacao/arena-classic-silicone-cap.jpg",
+    "imageUrl": "https://9da72a5923.clvaw-cdnwnd.com/e762320837a28fc5760a9d02b63f60c0/200007444-6de996de9b/IMG_9125.jpeg?ph=9da72a5923",
+    "bytes": 51131,
+    "contentType": "image/jpeg"
+  },
+  {
+    "id": 30,
+    "name": "Nabaiji Kickboard 500",
+    "sport": "natacao",
+    "localPath": "fotos/natacao/nabaiji-kickboard-500.jpg",
+    "imageUrl": "https://i.zst.com.br/thumbs/12/31/14/1951774085.jpg",
+    "bytes": 11942,
+    "contentType": "image/jpeg"
+  }
+]
