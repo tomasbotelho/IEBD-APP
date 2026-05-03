@@ -354,6 +354,76 @@ System:
 
 ---
 
+# PAYMENT SYSTEM (STRIPE + PAYPAL REQUIRED)
+
+Implement full payment integration using:
+
+## 1. Stripe
+- Secure payment intent flow
+- Webhooks for payment confirmation
+- Handle success / failure states properly
+
+## 2. PayPal
+- Full PayPal checkout integration
+- Payment verification via API
+- Webhook or callback validation
+
+---
+
+# CHECKOUT VALIDATION (MANDATORY FIELDS)
+
+At checkout, the customer MUST provide:
+
+## Required fields:
+- full name
+- email
+- phone number
+- shipping address
+
+---
+
+## PHONE NUMBER VALIDATION
+
+- Must validate correct format
+- Must accept international format (E.164 preferred)
+- Reject invalid or incomplete numbers
+- Backend validation is mandatory (frontend alone is not enough)
+
+---
+
+## ADDRESS VALIDATION
+
+- Must be required field
+- Must include at least:
+  - street
+  - city
+  - postal code
+  - country
+- Must be stored in database linked to order
+- Backend must validate completeness before allowing payment
+
+---
+
+## PAYMENT BLOCKING RULE
+
+If phone number or address is missing/invalid:
+- block checkout
+- show clear validation error
+- do NOT allow Stripe or PayPal initiation
+
+---
+
+## DATABASE REQUIREMENTS
+
+Orders must store:
+- shipping_address
+- phone_number
+- payment_method (stripe / paypal)
+- payment_status
+- transaction_id
+
+---
+
 # AUTO FIX LOOP
 
 If test fails:
