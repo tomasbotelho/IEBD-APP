@@ -2,8 +2,17 @@ name: Nightly AI
 
 on:
   schedule:
+    - cron: '40 0 * * *'
+    - cron: '10 1 * * *'
     - cron: '40 1 * * *'
-    - cron: '40 6 * * *'
+    - cron: '10 2 * * *'
+    - cron: '40 2 * * *'
+    - cron: '10 3 * * *'
+    - cron: '40 3 * * *'
+    - cron: '10 4 * * *'
+    - cron: '40 4 * * *'
+    - cron: '10 5 * * *'
+    - cron: '40 5 * * *'
   workflow_dispatch:
 
 jobs:
