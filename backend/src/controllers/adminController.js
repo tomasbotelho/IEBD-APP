@@ -234,13 +234,18 @@ export const deleteSiteText = async (req, res) => {
 // Banners
 // ---------------------------------------------------------------------------
 
+const VALID_BANNER_PAGES = ["home", "produtos", "promocoes", "categoria", "pesquisa", "carrinho", "conta"];
+
 const bannerSchema = z.object({
-  pageSlug: z.string().min(1, "A página é obrigatória."),
+  pageSlug: z.enum(VALID_BANNER_PAGES, { message: "Página inválida." }),
   title: z.string().optional().default(""),
   subtitle: z.string().optional().default(""),
-  imageUrl: z.string().optional().default(""),
+  imageUrl: z.string().refine(
+    (url) => !url || url.startsWith("/media/uploads/"),
+    "Imagem deve ser uma URL local de upload."
+  ).optional().default(""),
   active: z.boolean().optional().default(true),
-  sortOrder: z.coerce.number().int().optional().default(0)
+  sortOrder: z.coerce.number().int("Ordem deve ser um número inteiro.").min(1, "Ordem deve ser no mínimo 1.").optional().default(1)
 });
 
 export const listBanners = async (_req, res) => {
@@ -271,6 +276,11 @@ export const deleteBanner = async (req, res) => {
   const id = parseId(req.params);
   await adminService.deleteBanner(id);
   res.json({ ok: true, message: "Banner eliminado." });
+};
+
+export const getBannerPages = async (_req, res) => {
+  const data = await adminService.getBannerPages();
+  res.json({ ok: true, data });
 };
 
 // ---------------------------------------------------------------------------

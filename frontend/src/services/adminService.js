@@ -116,6 +116,10 @@ export const adminService = {
   async deleteBanner(id) {
     await api.delete(`/admin/banners/${id}`);
   },
+  async getBannerPages() {
+    const { data } = await api.get("/admin/banners/pages");
+    return data.data;
+  },
 
   // ---------------------------------------------------------------------------
   // Media upload

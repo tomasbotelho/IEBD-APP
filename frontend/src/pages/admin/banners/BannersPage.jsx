@@ -1,19 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
-import { Plus, Pencil, Trash2, Image, AlertCircle, RefreshCw, Check, X } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { Plus, Pencil, Trash2, Image, AlertCircle, RefreshCw, Check, X, Upload } from "lucide-react";
 import { adminService } from "../../../services/adminService.js";
 
 const inputCls =
   "w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400";
-
-const PAGES = [
-  { value: "produtos", label: "Catálogo de produtos" },
-  { value: "promocoes", label: "Promoções" },
-  { value: "categoria", label: "Página de categoria" },
-  { value: "pesquisa", label: "Resultados de pesquisa" },
-  { value: "carrinho", label: "Carrinho" },
-  { value: "conta", label: "Conta do cliente" },
-  { value: "outro", label: "Outra página" }
-];
 
 const emptyForm = {
   pageSlug: "",
@@ -21,22 +11,63 @@ const emptyForm = {
   subtitle: "",
   imageUrl: "",
   active: true,
-  sortOrder: 0
+  sortOrder: 1
 };
 
-const BannerModal = ({ banner, onSave, onClose }) => {
+const BannerModal = ({ banner, pages = [], onSave, onClose }) => {
   const [form, setForm] = useState(banner || emptyForm);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const fileInputRef = useRef(null);
 
   const set = (k) => (e) => {
     const val = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    setForm((f) => ({ ...f, [k]: val }));
+    let finalVal = val;
+    if (k === "sortOrder") {
+      finalVal = Math.max(1, Number(val) || 1);
+    }
+    setForm((f) => ({ ...f, [k]: finalVal }));
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ["image/png", "image/jpeg"];
+    if (!validTypes.includes(file.type)) {
+      setError("Apenas ficheiros PNG e JPEG são aceitos.");
+      e.target.value = "";
+      return;
+    }
+
+    // Validate file extension
+    const validExts = [".png", ".jpg", ".jpeg"];
+    const fileExt = ("." + file.name.split(".").pop()).toLowerCase();
+    if (!validExts.includes(fileExt)) {
+      setError("Apenas ficheiros PNG e JPEG são aceitos.");
+      e.target.value = "";
+      return;
+    }
+
+    setUploading(true);
+    setError("");
+    try {
+      const uploadedUrl = await adminService.uploadMedia(file);
+      setForm((f) => ({ ...f, imageUrl: uploadedUrl }));
+    } catch (err) {
+      setError(err?.response?.data?.message || "Erro ao carregar ficheiro.");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
     if (!form.pageSlug) return setError("Selecione uma página.");
+    if (form.sortOrder < 1) return setError("Ordem deve ser no mínimo 1.");
     setSaving(true);
     setError("");
     try {
@@ -70,7 +101,7 @@ const BannerModal = ({ banner, onSave, onClose }) => {
             <label className="mb-1.5 block text-sm font-medium text-slate-700">Página *</label>
             <select value={form.pageSlug} onChange={set("pageSlug")} className={inputCls}>
               <option value="">Selecionar página…</option>
-              {PAGES.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
+              {pages.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
             </select>
           </div>
           <div>
@@ -82,21 +113,46 @@ const BannerModal = ({ banner, onSave, onClose }) => {
             <input type="text" value={form.subtitle} onChange={set("subtitle")} className={inputCls} placeholder="Texto adicional" />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">URL da imagem</label>
-            <input type="url" value={form.imageUrl} onChange={set("imageUrl")} className={inputCls} placeholder="https://…" />
+            <label className="mb-1.5 block text-sm font-medium text-slate-700">Imagem *</label>
+            <button
+              type="button"
+              disabled={uploading}
+              onClick={() => fileInputRef.current?.click()}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 py-6 text-sm font-medium text-slate-600 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600 transition-colors disabled:opacity-60"
+            >
+              {uploading ? (
+                <>
+                  <RefreshCw className="h-4 w-4 animate-spin" />
+                  A carregar…
+                </>
+              ) : (
+                <>
+                  <Upload className="h-4 w-4" />
+                  Carregar imagem (PNG, JPG, JPEG)
+                </>
+              )}
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".png,.jpg,.jpeg,image/png,image/jpeg"
+              onChange={handleFileChange}
+              className="hidden"
+              disabled={uploading}
+            />
             {form.imageUrl && (
               <img
                 src={form.imageUrl}
                 alt="Pré-visualização"
-                className="mt-2 h-24 w-full rounded-xl object-cover border border-slate-200"
+                className="mt-3 h-24 w-full rounded-xl object-cover border border-slate-200"
                 onError={(e) => e.target.style.display = "none"}
               />
             )}
           </div>
           <div className="flex items-center gap-6">
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">Ordem</label>
-              <input type="number" value={form.sortOrder} onChange={set("sortOrder")} className={`${inputCls} w-24`} min="0" />
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">Ordem *</label>
+              <input type="number" value={form.sortOrder} onChange={set("sortOrder")} className={`${inputCls} w-24`} min="1" />
             </div>
             <label className="flex items-center gap-2 cursor-pointer pt-5">
               <input type="checkbox" checked={form.active} onChange={set("active")} className="h-4 w-4 rounded border-slate-300 text-indigo-600" />
@@ -121,6 +177,7 @@ const BannerModal = ({ banner, onSave, onClose }) => {
 
 export const BannersPage = () => {
   const [banners, setBanners] = useState([]);
+  const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [modal, setModal] = useState(null); // null | 'new' | banner object
@@ -131,9 +188,14 @@ export const BannersPage = () => {
     setLoading(true);
     setError("");
     try {
-      setBanners(await adminService.listBanners());
+      const [bannersList, pagesList] = await Promise.all([
+        adminService.listBanners(),
+        adminService.getBannerPages()
+      ]);
+      setBanners(bannersList);
+      setPages(pagesList);
     } catch {
-      setError("Erro ao carregar banners.");
+      setError("Erro ao carregar dados.");
     } finally {
       setLoading(false);
     }
@@ -159,7 +221,7 @@ export const BannersPage = () => {
     }
   };
 
-  const pages = [...new Set(banners.map((b) => b.pageSlug))].sort();
+  const pageOptions = [...new Set(banners.map((b) => b.pageSlug))].sort();
   const filtered = filterPage ? banners.filter((b) => b.pageSlug === filterPage) : banners;
 
   return (
@@ -167,6 +229,7 @@ export const BannersPage = () => {
       {modal && (
         <BannerModal
           banner={modal === "new" ? null : modal}
+          pages={pages}
           onSave={handleSave}
           onClose={() => setModal(null)}
         />
@@ -180,7 +243,7 @@ export const BannersPage = () => {
           className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-indigo-400"
         >
           <option value="">Todas as páginas</option>
-          {pages.map((p) => <option key={p} value={p}>{p}</option>)}
+          {pages.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
         </select>
         <div className="flex-1" />
         <button

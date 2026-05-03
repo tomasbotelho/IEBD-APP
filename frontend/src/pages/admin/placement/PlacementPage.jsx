@@ -347,7 +347,6 @@ const FeaturedSection = () => {
   const [loading, setLoading] = useState(true);
   const [picker, setPicker] = useState(false);
   const [error, setError] = useState("");
-  const { slice, page, pages, setPage, reset } = usePaged(items);
 
   const load = useCallback(async () => {
     try {
@@ -366,7 +365,6 @@ const FeaturedSection = () => {
     try {
       const updated = await adminService.addPlacementFeatured({ productId: product.id });
       setItems(updated);
-      reset();
     } catch (err) {
       setError(err?.response?.data?.message || "Erro ao adicionar.");
     }
@@ -409,7 +407,7 @@ const FeaturedSection = () => {
       )}
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {slice.map((item) => (
+        {items.map((item) => (
           <div key={item.id} className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
             {item.image ? (
               <img src={item.image} alt={item.name} className="h-14 w-14 shrink-0 rounded-xl object-cover border border-slate-200" />
@@ -429,10 +427,6 @@ const FeaturedSection = () => {
           </div>
         ))}
       </div>
-
-      {pages > 1 && (
-        <Paginator page={page} pages={pages} onPage={setPage} />
-      )}
     </SectionShell>
   );
 };

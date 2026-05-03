@@ -5,6 +5,34 @@ import { getPool } from "../config/db.js";
 import { AppError } from "../utils/appError.js";
 
 // ---------------------------------------------------------------------------
+// Constants
+// ---------------------------------------------------------------------------
+
+// Whitelist of editable CMS text content
+// Only these section/key combinations can be edited
+const EDITABLE_SITE_TEXTS = {
+  // Banner titles and subtitles
+  "banners:*": true,
+  // Page titles and subtitles (hero, homepage, etc)
+  "hero:title": true,
+  "hero:subtitle": true,
+  "hero:description": true,
+  "homepage:title": true,
+  "homepage:highlights_title": true,
+  "homepage:campaigns_title": true,
+  // Footer content (when table exists)
+  "footer:*": true
+};
+
+const isEditableText = (sectionKey, contentKey) => {
+  // Check exact match
+  if (EDITABLE_SITE_TEXTS[`${sectionKey}:${contentKey}`]) return true;
+  // Check wildcard match
+  if (EDITABLE_SITE_TEXTS[`${sectionKey}:*`]) return true;
+  return false;
+};
+
+// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
@@ -631,11 +659,15 @@ const listSiteTexts = async () => {
     contentKey: r.content_key,
     lang: r.lang,
     content: r.content,
-    updatedAt: r.updated_at ? new Date(r.updated_at).toISOString() : null
+    updatedAt: r.updated_at ? new Date(r.updated_at).toISOString() : null,
+    isEditable: isEditableText(r.section_key, r.content_key)
   }));
 };
 
 const createSiteText = async ({ sectionKey, contentKey, lang = "pt", content }) => {
+  if (!isEditableText(sectionKey, contentKey)) {
+    throw new AppError(`Texto "${sectionKey}:${contentKey}" não pode ser editado.`, 403);
+  }
   const pool = requirePool();
   const conn = await pool.getConnection();
   try {
@@ -683,6 +715,10 @@ const updateSiteText = async (id, { content }) => {
   const pool = requirePool();
   const [[row]] = await pool.query(`SELECT * FROM site_texts WHERE id = ?`, [Number(id)]);
   if (!row) throw new AppError("Texto não encontrado.", 404);
+  
+  if (!isEditableText(row.section_key, row.content_key)) {
+    throw new AppError(`Texto "${row.section_key}:${row.content_key}" não pode ser editado.`, 403);
+  }
 
   const conn = await pool.getConnection();
   try {
@@ -761,6 +797,18 @@ const deleteBanner = async (id) => {
   const pool = requirePool();
   const [result] = await pool.query(`DELETE FROM banners WHERE id = ?`, [Number(id)]);
   if (result.affectedRows === 0) throw new AppError("Banner não encontrado.", 404);
+};
+
+const getBannerPages = async () => {
+  return [
+    { value: "home", label: "Homepage" },
+    { value: "produtos", label: "Catálogo de produtos" },
+    { value: "promocoes", label: "Promoções" },
+    { value: "categoria", label: "Página de categoria" },
+    { value: "pesquisa", label: "Resultados de pesquisa" },
+    { value: "carrinho", label: "Carrinho" },
+    { value: "conta", label: "Conta do cliente" }
+  ];
 };
 
 // ---------------------------------------------------------------------------
@@ -1614,6 +1662,7 @@ export const adminService = {
   createBanner,
   updateBanner,
   deleteBanner,
+  getBannerPages,
   getSalesReport,
   getRevenueReport,
   getOrdersReport,

@@ -91,8 +91,10 @@ const TranslationRow = ({ t, onSave }) => {
   const [saving, setSaving] = useState(false);
   const dirty = content !== t.content;
   const taRef = useRef(null);
+  const isReadOnly = !t.isEditable;
 
   const handleSave = async () => {
+    if (isReadOnly) return;
     setSaving(true);
     try { await onSave(t.id, content); } finally { setSaving(false); }
   };
@@ -100,13 +102,20 @@ const TranslationRow = ({ t, onSave }) => {
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-medium text-slate-500">
-          {LANG_META[t.lang]?.flag} {LANG_META[t.lang]?.label}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-medium text-slate-500">
+            {LANG_META[t.lang]?.flag} {LANG_META[t.lang]?.label}
+          </span>
+          {isReadOnly && (
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
+              Bloqueado
+            </span>
+          )}
+        </div>
         <div className="flex items-center gap-1">
-          <FormatToolbar taRef={taRef} getValue={() => content} setValue={setContent} />
+          {!isReadOnly && <FormatToolbar taRef={taRef} getValue={() => content} setValue={setContent} />}
           <button
-            disabled={!dirty || saving}
+            disabled={!dirty || saving || isReadOnly}
             onClick={handleSave}
             className="ml-1 flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium transition-colors
               bg-indigo-50 text-indigo-600 hover:bg-indigo-100 disabled:opacity-40 disabled:hover:bg-indigo-50"
@@ -119,12 +128,13 @@ const TranslationRow = ({ t, onSave }) => {
       <textarea
         ref={taRef}
         value={content}
-        onChange={(e) => setContent(e.target.value)}
+        onChange={(e) => !isReadOnly && setContent(e.target.value)}
+        readOnly={isReadOnly}
         rows={content.length > 80 ? 3 : 2}
-        className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800
-          outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-1 focus:ring-indigo-400"
+        className={`w-full resize-none rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-800
+          outline-none transition ${isReadOnly ? 'bg-slate-100 cursor-not-allowed' : 'bg-white focus:border-indigo-400 focus:bg-white focus:ring-1 focus:ring-indigo-400'}`}
       />
-      {dirty && <p className="text-[11px] text-amber-600">Alterações não guardadas</p>}
+      {dirty && !isReadOnly && <p className="text-[11px] text-amber-600">Alterações não guardadas</p>}
     </div>
   );
 };

@@ -14,7 +14,7 @@ import {
   // Site Texts
   listSiteTexts, createSiteText, updateSiteText, deleteSiteText,
   // Banners
-  listBanners, createBanner, updateBanner, deleteBanner,
+  listBanners, createBanner, updateBanner, deleteBanner, getBannerPages,
   // Reports
   downloadReport,
   // Orders
@@ -45,7 +45,16 @@ const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
-    cb(null, /^image\/(jpeg|png|webp|gif|svg\+xml)$/.test(file.mimetype));
+    // Only accept PNG and JPEG
+    if (!/^image\/(jpeg|png)$/.test(file.mimetype)) {
+      return cb(new Error("Apenas ficheiros PNG e JPEG são aceitos. Formatos suportados: .png, .jpg, .jpeg"));
+    }
+    // Double-check file extension
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (!['.png', '.jpg', '.jpeg'].includes(ext)) {
+      return cb(new Error("Apenas ficheiros PNG e JPEG são aceitos."));
+    }
+    cb(null, true);
   }
 });
 
@@ -93,19 +102,29 @@ router.delete("/site-texts/:id", asyncHandler(deleteSiteText));
 // ---------------------------------------------------------------------------
 // Banners
 // ---------------------------------------------------------------------------
-router.get("/banners",       asyncHandler(listBanners));
-router.post("/banners",      asyncHandler(createBanner));
-router.put("/banners/:id",   asyncHandler(updateBanner));
-router.delete("/banners/:id", asyncHandler(deleteBanner));
+router.get("/banners/pages",     asyncHandler(getBannerPages)); // Must be before /:id
+router.get("/banners",           asyncHandler(listBanners));
+router.post("/banners",          asyncHandler(createBanner));
+router.put("/banners/:id",       asyncHandler(updateBanner));
+router.delete("/banners/:id",    asyncHandler(deleteBanner));
 
 // ---------------------------------------------------------------------------
 // Media upload  POST /api/admin/upload  → { url: "/media/uploads/filename.jpg" }
 // ---------------------------------------------------------------------------
-router.post("/upload", upload.single("file"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "Ficheiro inválido ou demasiado grande (máx 5 MB)." });
-  }
-  res.json({ url: `/media/uploads/${req.file.filename}` });
+router.post("/upload", (req, res, next) => {
+  upload.single("file")(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({ 
+        message: err.message || "Erro ao carregar ficheiro."
+      });
+    }
+    if (!req.file) {
+      return res.status(400).json({ 
+        message: "Ficheiro inválido ou demasiado grande (máx 5 MB). Apenas PNG e JPEG são aceitos." 
+      });
+    }
+    res.json({ url: `/media/uploads/${req.file.filename}` });
+  });
 });
 
 // ---------------------------------------------------------------------------
